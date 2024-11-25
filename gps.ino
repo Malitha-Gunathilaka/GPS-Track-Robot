@@ -8,8 +8,10 @@
 #define GPSBaud 9600
 
 // Motor driver setup
-AF_DCMotor leftMotor(1);  // Motor connected to M1
-AF_DCMotor rightMotor(2); // Motor connected to M2
+AF_DCMotor leftMotorFront(1);  // Motor connected to M1
+AF_DCMotor rightMotorFront(2); // Motor connected to M2
+AF_DCMotor leftMotorRear(3);   // Motor connected to M3
+AF_DCMotor rightMotorRear(4);  // Motor connected to M4
 
 // Target GPS coordinates
 double targetLatitude = 37.4219983;   // Replace with your target latitude
@@ -96,41 +98,61 @@ double calculateBearing(double lat1, double lon1, double lat2, double lon2) {
 
 // Motor control functions
 void moveForward() {
-  leftMotor.setSpeed(200);  // Speed: 0-255
-  rightMotor.setSpeed(200);
-  leftMotor.run(FORWARD);
-  rightMotor.run(FORWARD);
+  leftMotorFront.setSpeed(200);  // Speed: 0-255
+  rightMotorFront.setSpeed(200);
+  leftMotorRear.setSpeed(200);
+  rightMotorRear.setSpeed(200);
+  leftMotorFront.run(FORWARD);
+  rightMotorFront.run(FORWARD);
+  leftMotorRear.run(FORWARD);
+  rightMotorRear.run(FORWARD);
   Serial.println("Moving forward");
 }
 
 void moveBackward() {
-  leftMotor.setSpeed(200);
-  rightMotor.setSpeed(200);
-  leftMotor.run(BACKWARD);
-  rightMotor.run(BACKWARD);
+  leftMotorFront.setSpeed(200);
+  rightMotorFront.setSpeed(200);
+  leftMotorRear.setSpeed(200);
+  rightMotorRear.setSpeed(200);
+  leftMotorFront.run(BACKWARD);
+  rightMotorFront.run(BACKWARD);
+  leftMotorRear.run(BACKWARD);
+  rightMotorRear.run(BACKWARD);
   Serial.println("Moving backward");
 }
 
 void turnLeft() {
-  leftMotor.setSpeed(150);
-  rightMotor.setSpeed(200);
-  leftMotor.run(BACKWARD);
-  rightMotor.run(FORWARD);
+  leftMotorFront.setSpeed(150);
+  rightMotorFront.setSpeed(200);
+  leftMotorRear.setSpeed(150);
+  rightMotorRear.setSpeed(200);
+  leftMotorFront.run(BACKWARD);
+  rightMotorFront.run(FORWARD);
+  leftMotorRear.run(BACKWARD);
+  rightMotorRear.run(FORWARD);
   Serial.println("Turning left");
 }
 
 void turnRight() {
-  leftMotor.setSpeed(200);
-  rightMotor.setSpeed(150);
-  leftMotor.run(FORWARD);
-  rightMotor.run(BACKWARD);
+  leftMotorFront.setSpeed(200);
+  rightMotorFront.setSpeed(150);
+  leftMotorRear.setSpeed(200);
+  rightMotorRear.setSpeed(150);
+  leftMotorFront.run(FORWARD);
+  rightMotorFront.run(BACKWARD);
+  leftMotorRear.run(FORWARD);
+  rightMotorRear.run(BACKWARD);
   Serial.println("Turning right");
 }
 
 void stopMotors() {
-  leftMotor.setSpeed(0);
-  rightMotor.setSpeed(0);
-  leftMotor.run(RELEASE);
-  rightMotor.run(RELEASE);
+  leftMotorFront.setSpeed(0);
+  rightMotorFront.setSpeed(0);
+  leftMotorRear.setSpeed(0);
+  rightMotorRear.setSpeed(0);
+  leftMotorFront.run(RELEASE);
+  rightMotorFront.run(RELEASE);
+  leftMotorRear.run(RELEASE);
+  rightMotorRear.run(RELEASE);
   Serial.println("Motors stopped");
 }
