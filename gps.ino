@@ -34,26 +34,31 @@ void setup() {
 void loop() {
   // Check GPS data
   while (gpsSerial.available() > 0) {
-    gps.encode(gpsSerial.read());
-    if (gps.location.isUpdated()) {
-      double currentLatitude = gps.location.lat();
-      double currentLongitude = gps.location.lng();
-      Serial.print("Current Location: ");
-      Serial.print(currentLatitude, 6);
-      Serial.print(", ");
-      Serial.println(currentLongitude, 6);
+    char c = gpsSerial.read();
+    Serial.write(c); // Print raw GPS data for debugging
+    gps.encode(c);
+  }
 
-      float distanceToTarget = calculateDistance(currentLatitude, currentLongitude, targetLatitude, targetLongitude);
-      Serial.print("Distance to target: ");
-      Serial.println(distanceToTarget);
+  if (gps.location.isUpdated()) {
+    double currentLatitude = gps.location.lat();
+    double currentLongitude = gps.location.lng();
+    Serial.print("Current Location: ");
+    Serial.print(currentLatitude, 6);
+    Serial.print(", ");
+    Serial.println(currentLongitude, 6);
 
-      if (distanceToTarget < tolerance) {
-        stopMotors();
-        Serial.println("Target reached!");
-      } else {
-        moveTowardsTarget(currentLatitude, currentLongitude, targetLatitude, targetLongitude);
-      }
+    float distanceToTarget = calculateDistance(currentLatitude, currentLongitude, targetLatitude, targetLongitude);
+    Serial.print("Distance to target: ");
+    Serial.println(distanceToTarget);
+
+    if (distanceToTarget < tolerance) {
+      stopMotors();
+      Serial.println("Target reached!");
+    } else {
+      moveTowardsTarget(currentLatitude, currentLongitude, targetLatitude, targetLongitude);
     }
+  } else {
+    Serial.println("Waiting for GPS signal...");
   }
 }
 
